@@ -14,12 +14,8 @@ client.on("message", function(message) {
 
         if(action === "[getgames")
         {
-            getOwnedGames().then(function successHandler(result) {
-                message.channel.send(result);
-              }, function failureHandler(error) {
-               //handle
-              });;
-        
+            var results = await getOwnedGames();
+            
         }
     }
     
@@ -47,3 +43,4 @@ async function getOwnedGames(){
         return body.response.game_count;
     });
 }
+
