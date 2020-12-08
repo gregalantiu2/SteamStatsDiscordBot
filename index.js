@@ -14,10 +14,9 @@ client.on("message", function(message) {
 
         if(action === "[getgames")
         {
-            var results = await getOwnedGames();
-            
+            var gamesCount = getOwnedGames();
         }
-    }
+}
     
 });
 
@@ -37,10 +36,18 @@ function analyzeReplies(message){
 }
 
 //Http Requets
-async function getOwnedGames(){
-    request('http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + steamAPIKey + '&steamid=76561197960434622&format=json', { json: true }, (err, res, body) => {
+async function getOwnedGames() {
+    await request('http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + steamAPIKey + '&steamid=76561197960434622&format=json', { json: true }, (err, res, body) => {
     if (err) { return err; }
         return body.response.game_count;
     });
 }
+
+function successCallback(result) {
+    message.channel.send(result);
+  }
+
+function failureCallback(error) {
+    console.error(error);
+  }
 
